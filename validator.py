@@ -26,11 +26,11 @@ class Rule:
     
 if __name__ == '__main__':    
     # Example on how to use Rules to validate passwords
-    rules = Rules()
-    rules.add_rule(lambda s: any(x.isdigit() for x in s))
-    rules.add_rule(lambda s: any(x.islower() for x in s))
-    rules.add_rule(lambda s: any(x.isupper() for x in s))
-    rules.add_rule(lambda s: len(s) >= 6)
+    pwd_rules = Rules()
+    pwd_rules.add_rule(lambda s: any(x.isdigit() for x in s))
+    pwd_rules.add_rule(lambda s: any(x.islower() for x in s))
+    pwd_rules.add_rule(lambda s: any(x.isupper() for x in s))
+    pwd_rules.add_rule(lambda s: len(s) >= 6)
 
-    print(rules.validate("jOh12on"))
+    print(pwd_rules.validate("jOh12on"))
 
