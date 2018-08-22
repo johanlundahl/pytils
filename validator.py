@@ -2,8 +2,8 @@ class Rules:
     def __init__(self):
         self._rules = []
     
-    def add_rule(self, func, feedback = None):
-        self._rules.append(Rule(func, feedback))
+    def add_rule(self, func, result = None):
+        self._rules.append(Rule(func, result))
     
     def validate(self, obj):
         try:
@@ -11,14 +11,20 @@ class Rules:
         except:
             return False
 
+   	def evaluate(self, obj):
+        for rule in self._rules:
+		    if not rule.func(obj):
+			    return rule.result
+        return None
+    
 class Rule:
-    def __init__(self, func, feedback):
+    def __init__(self, func, result):
         self._func = func
-        self._feedback = feedback
+        self._result = result
     
     @property
-    def feedback(self):
-        return self._feedback
+    def result(self):
+        return self._result
     
     @property
     def func(self):
