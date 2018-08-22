@@ -11,10 +11,10 @@ class Checker:
         except:
             return False
 
-   	def evaluate(self, obj):
+    def evaluate(self, obj):
         for rule in self._rules:
-		    if not rule.func(obj):
-			    return rule.result
+	    if not rule.func(obj):
+                return rule.result
         return None
     
 class Rule:
