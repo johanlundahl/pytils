@@ -1,4 +1,4 @@
-class Rules:
+class Checker:
     def __init__(self):
         self._rules = []
     
@@ -32,7 +32,7 @@ class Rule:
     
 if __name__ == '__main__':    
     # Example on how to use Rules to validate passwords
-    pwd_rules = Rules()
+    pwd_rules = Checker()
     pwd_rules.add_rule(lambda s: any(x.isdigit() for x in s))
     pwd_rules.add_rule(lambda s: any(x.islower() for x in s))
     pwd_rules.add_rule(lambda s: any(x.isupper() for x in s))
