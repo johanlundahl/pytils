@@ -1,20 +1,31 @@
+import method_chaining
+
 class Checker:
     def __init__(self):
         self._rules = []
+        self._type = lambda x: all(x)
+        
+    @method_chaining.chainable
+    def any(self):
+        self._type = lambda x: any(x)
     
+    @method_chaining.chainable
+    def all(self):
+        self._type = lambda x: all(x)
+        
     def add_rule(self, func, result = None):
         self._rules.append(Rule(func, result))
     
     def validate(self, obj):
         try:
-            return all(rule.func(obj) for rule in self._rules)
+            return self._type(rule.func(obj) for rule in self._rules)
         except:
             return False
 
     def evaluate(self, obj):
         for rule in self._rules:
-	    if not rule.func(obj):
-                return rule.result
+            if not rule.func(obj):
+                return rule.result(obj) if callable(rule.result) else rule.result
         return None
     
 class Rule:
