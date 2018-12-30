@@ -51,3 +51,10 @@ if __name__ == '__main__':
 
     print(pwd_rules.validate("jOh12on"))
 
+    nbr_plate = Checker()
+    nbr_plate.add_rule(lambda r: len(r) == 6, 'Must be six tokens long')
+    nbr_plate.add_rule(lambda r: all(x.isdigit() for x in r[-3:]), 'Must end with three digits')
+    nbr_plate.add_rule(lambda r: all(x.isalpha() for x in r[:3]), 'Must start with three letters')
+
+    if not nbr_plate.validate('ABC 123'):
+        print(nbr_plate.evaluate('ABC 123'))
