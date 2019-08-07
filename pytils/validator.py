@@ -1,4 +1,4 @@
-import method_chaining
+from pytils import method_chaining
 
 class Checker:
     def __init__(self):
