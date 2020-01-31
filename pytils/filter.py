@@ -46,9 +46,19 @@ class Filter:
 
     @classmethod
     def value_parse(cls, str):
-        try:
-            date = datetime.strptime(str, '%Y-%m-%d')
-            return str
-        except:
+        date = cls.parse_datetime(str)
+        if date is not None:
+            return date 
+        else:
             return json.loads(str)
+
+    @classmethod
+    def parse_datetime(cls, str):
+        formats = ['%Y-%m-%d', '%Y-%m-%d %H:%M:%S']
+        for format in formats:
+            try:
+                return datetime.strptime(str, format)
+            except:
+                continue
+        return None
         
