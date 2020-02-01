@@ -10,3 +10,8 @@ def get_json(url):
     headers = {'content-type': 'application/json'}
     response = requests.get(url, headers = headers)
     return response.status_code, response.json()
+
+def get(url):
+	headers = {'content-type': 'application/json'}
+	response = requests.get(url, headers = headers)
+    return response.status_code, response.text
