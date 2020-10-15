@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='pytils',
-    version='0.94',
+    version='0.95',
     packages = ['pytils'],
     license='Creative Commons Attribution-Noncommercial-Share Alike license',
     url='https://github.com/johanlundahl/pytils'
