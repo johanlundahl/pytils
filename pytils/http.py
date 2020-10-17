@@ -2,6 +2,7 @@ import requests
 import json
 import operator
 from datetime import datetime
+import re
 
 def post_json(url, obj):
     headers = {'content-type': 'application/json'}
