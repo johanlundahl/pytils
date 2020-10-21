@@ -63,8 +63,8 @@ class Filter:
 
     @classmethod
     def value_parse(cls, str, default_parse):
-        date = cls.parse_datetime(str) if default_parse else None
-        if date is not None:
+        date = cls.parse_datetime(str)
+        if not default_parse and date is not None:
             return date 
         else:
             return json.loads(str)
