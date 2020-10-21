@@ -29,23 +29,23 @@ class Filter:
         self.value = value
 
     @classmethod
-    def from_querystring(cls, str):
+    def from_querystring(cls, str, default_parse=True):
         match = re.compile("(.+)\[(.+)\]=(.+)").match(str)
         if match:
             name, operator, value = match.groups()
-            return Filter(name, operator, cls.value_parse(value))
+            return Filter(name, operator, cls.value_parse(value, default_parse))
         match = re.compile('(.+)=(.+)').match(str)
         if match:
             name, value = match.groups()
-            return Filter(name, value=cls.value_parse(value))
+            return Filter(name, value=cls.value_parse(value, default_parse))
 
     @classmethod
-    def from_arg(cls, name, value):
+    def from_arg(cls, name, value, default_parse=False):
         match = re.compile("(.+)\[(.+)\]").match(name)
         if match:
             name, operator = match.groups()
-            return Filter(name, operator, cls.value_parse(value))
-        return Filter(name, value=cls.value_parse(value))
+            return Filter(name, operator, cls.value_parse(value, default_parse))
+        return Filter(name, value=cls.value_parse(value, default_parse))
 
     @classmethod
     def args_matching(cls, args, name):
@@ -62,8 +62,8 @@ class Filter:
         return str(self)
 
     @classmethod
-    def value_parse(cls, str):
-        date = cls.parse_datetime(str)
+    def value_parse(cls, str, default_parse):
+        date = cls.parse_datetime(str) if default_parse else None
         if date is not None:
             return date 
         else:
@@ -71,6 +71,7 @@ class Filter:
 
     @classmethod
     def parse_datetime(cls, str):
+        #formats = ['%Y-%m-%d', '%Y-%m-%d %H:%M:%S']
         formats = ['%Y-%m-%d', '%Y-%m-%d %H:%M:%S']
         for format in formats:
             try:
