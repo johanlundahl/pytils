@@ -29,23 +29,23 @@ class Filter:
         self.value = value
 
     @classmethod
-    def from_querystring(cls, str, default_parse=True):
+    def from_querystring(cls, str, ignore_type=False):
         match = re.compile("(.+)\[(.+)\]=(.+)").match(str)
         if match:
             name, operator, value = match.groups()
-            return Filter(name, operator, cls.value_parse(value, default_parse))
+            return Filter(name, operator, cls.value_parse(value, ignore_type))
         match = re.compile('(.+)=(.+)').match(str)
         if match:
             name, value = match.groups()
-            return Filter(name, value=cls.value_parse(value, default_parse))
+            return Filter(name, value=cls.value_parse(value, ignore_type))
 
     @classmethod
-    def from_arg(cls, name, value, default_parse=False):
+    def from_arg(cls, name, value, ignore_type=False):
         match = re.compile("(.+)\[(.+)\]").match(name)
         if match:
             name, operator = match.groups()
-            return Filter(name, operator, cls.value_parse(value, default_parse))
-        return Filter(name, value=cls.value_parse(value, default_parse))
+            return Filter(name, operator, cls.value_parse(value, ignore_type))
+        return Filter(name, value=cls.value_parse(value, ignore_type))
 
     @classmethod
     def args_matching(cls, args, name):
@@ -62,9 +62,11 @@ class Filter:
         return str(self)
 
     @classmethod
-    def value_parse(cls, str, default_parse):
+    def value_parse(cls, str, ignore_type):
+        if ignore_type:
+            return str
         date = cls.parse_datetime(str)
-        if not default_parse and date is not None:
+        if not ignore_type and date is not None:
             return date 
         else:
             return json.loads(str)
