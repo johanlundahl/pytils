@@ -2,3 +2,4 @@ argparse
 secrets
 win32file
 python-box
+pyyaml
