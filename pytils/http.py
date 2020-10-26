@@ -20,12 +20,12 @@ def get(url):
     return response.status_code, response.text
 
 
-operators = { 'lt':operator.lt, 'le':operator.le, 'eq':operator.eq, 'ne':operator.ne, 'ge':operator.ge, 'gt':operator.gt }
+operators = { 'lt':(operator.lt, '<'), 'le':(operator.le, '<='), 'eq':(operator.eq, '=='), 'ne':(operator.ne, '!='), 'ge':(operator.ge, '>='), 'gt':(operator.gt, '>') }
 
 class Filter:   
     def __init__(self, name, operator='eq', value=None):
         self.name = name
-        self.operator = operators[operator]
+        self.operator, self.operator_str = operators[operator]
         self.value = value
 
     @classmethod
@@ -53,7 +53,11 @@ class Filter:
 
     @property
     def evaluate(self):
-        return lambda x: self.operator(x.__dict__[self.name], self.value)  
+        return lambda x: self.operator(x.__dict__[self.name], self.value)
+
+    def to_json(self):
+        result = {'field': self.name, 'op': self.operator_str, 'value': self.value}
+        return result
 
     def __str__(self):
         return 'Filter(name={}, operator={}, value={})'.format(self.name, self.operator, self.value)
@@ -73,7 +77,6 @@ class Filter:
 
     @classmethod
     def parse_datetime(cls, str):
-        #formats = ['%Y-%m-%d', '%Y-%m-%d %H:%M:%S']
         formats = ['%Y-%m-%d', '%Y-%m-%d %H:%M:%S']
         for format in formats:
             try:
