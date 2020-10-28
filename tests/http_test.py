@@ -62,6 +62,15 @@ class FilterTest(unittest.TestCase):
         self.assertEqual(Filter('date', operator='gt').to_json()['op'], '>')
         self.assertEqual(Filter('date', operator='ge').to_json()['op'], '>=')
 
+    def test_split_name_without_operator(self):
+        name, operator = Filter.split_name_operator('name')
+        self.assertEqual('name', name)
+
+    def test_split_name_with_operator(self):
+        name, operator = Filter.split_name_operator('name[eq]')
+        self.assertEqual('name', name)
+        self.assertEqual('eq', operator)        
+
 
 if __name__ == '__main__':
-    unittest.main()
+    unittest.main() 

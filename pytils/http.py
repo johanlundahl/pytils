@@ -25,7 +25,7 @@ def validate_querystrings(method='GET', parameters=[]):
     def wrap(f):
         def wrapped_f(*args, **kwargs):
             for querystring in request.args:
-                # TOOD: clean from operators. [eq]
+                querystring, operator = Filter.split_name_operator(querystring)
                 if querystring not in parameters:
                     return 'The requested argument {} is not supported.'.format(querystring), 400
             return f(*args, **kwargs)
@@ -35,7 +35,7 @@ def validate_querystrings(method='GET', parameters=[]):
 
 operators = { 'lt':(operator.lt, '<'), 'le':(operator.le, '<='), 'eq':(operator.eq, '=='), 'ne':(operator.ne, '!='), 'ge':(operator.ge, '>='), 'gt':(operator.gt, '>') }
 
-class Filter:   
+class Filter:
     def __init__(self, name, operator='eq', value=None):
         self.name = name
         self.operator, self.operator_str = operators[operator]
@@ -54,11 +54,18 @@ class Filter:
 
     @classmethod
     def from_arg(cls, name, value, ignore_type=False):
-        match = re.compile("(.+)\[(.+)\]").match(name)
-        if match:
-            name, operator = match.groups()
+        name, operator = Filter.split_name_operator(name)
+        if operator is not None:
             return Filter(name, operator, cls.value_parse(value, ignore_type))
         return Filter(name, value=cls.value_parse(value, ignore_type))
+
+    @classmethod
+    def split_name_operator(cls, full_name):
+        match = re.compile("(.+)\[(.+)\]").match(full_name)
+        if match:
+            name, operator = match.groups()
+            return name, operator
+        return full_name, None
 
     @classmethod
     def args_matching(cls, args, name):
