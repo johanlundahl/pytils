@@ -20,6 +20,18 @@ def get(url):
     return response.status_code, response.text
 
 
+def validate_querystrings(method='GET', parameters=[]):
+    def wrap(f):
+        def wrapped_f(*args, **kwargs):
+            for querystring in request.args:
+                # TOOD: clean from operators. [eq]
+                if querystring not in parameters:
+                    return 'The requested argument {} is not supported.'.format(querystring), 400
+            return f(*args, **kwargs)
+        return wrapped_f
+    return wrap
+
+
 operators = { 'lt':(operator.lt, '<'), 'le':(operator.le, '<='), 'eq':(operator.eq, '=='), 'ne':(operator.ne, '!='), 'ge':(operator.ge, '>='), 'gt':(operator.gt, '>') }
 
 class Filter:   
