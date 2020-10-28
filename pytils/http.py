@@ -4,6 +4,7 @@ import operator
 from datetime import datetime
 import re
 from flask import request
+from functools import wraps
 
 def post_json(url, obj):
     headers = {'content-type': 'application/json'}
@@ -23,6 +24,7 @@ def get(url):
 
 def validate_querystrings(method='GET', parameters=[]):
     def wrap(f):
+        @wraps(func)
         def wrapped_f(*args, **kwargs):
             for querystring in request.args:
                 querystring, operator = Filter.split_name_operator(querystring)
