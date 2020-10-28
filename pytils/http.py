@@ -3,6 +3,7 @@ import json
 import operator
 from datetime import datetime
 import re
+from flask import request
 
 def post_json(url, obj):
     headers = {'content-type': 'application/json'}
