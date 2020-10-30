@@ -1,8 +1,5 @@
-from selenium import webdriver
-from selenium.common.exceptions import NoSuchElementException
-from selenium.webdriver.common.by import By
 import unittest
-from validator import Checker
+from pytils.validator import Checker
 
 class Search(unittest.TestCase):
     def setUp(self):
