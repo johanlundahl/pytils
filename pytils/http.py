@@ -106,4 +106,10 @@ class Filter:
             except:
                 continue
         return None
-        
+
+class Navigation:
+
+    def __init__(self, title, prev, next):
+        self.title = title
+        self.prev = prev
+        self.next = next
