@@ -60,7 +60,7 @@ class Week:
 	@property
 	def first_day(self):
 		week_str = '{}-{}-1'.format(self._year, self._number)
-		monday = datetime.strptime(week_str, "%Y-%W-%w") 
+		monday = datetime.strptime(week_str, '%G-%V-%u')
 		return Date(monday)
 	
 	@property
