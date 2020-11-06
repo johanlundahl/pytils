@@ -21,5 +21,4 @@ def get_main_name():
 def init(file_name=None):
     cfg = Box(load_config(file_name))
 
-if has_main():
-    init()
+cfg = Box(load_config())
