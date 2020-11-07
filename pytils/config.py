@@ -19,6 +19,4 @@ def get_main_name():
     return '{}.yaml'.format(app_name) 
 
 def init(file_name=None):
-    cfg = Box(load_config(file_name))
-
-cfg = Box(load_config())
+    return Box(load_config(file_name))
