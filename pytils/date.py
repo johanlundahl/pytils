@@ -39,9 +39,7 @@ class Date:
 
 	@property
 	def week(self):
-		year = self._datetime.year
-		week = self._datetime.isocalendar()[1]
-		return Week(year, week)
+		return Week(self._datetime)
 	
 	@property
 	def next(self):
@@ -53,37 +51,40 @@ class Date:
 
 class Week:
 
-	def __init__(self, year, number):
-		self._year = year
-		self._number = number
+	def __init__(self, a_datetime):
+		self._a_datetime = a_datetime
+
+	@classmethod
+	def from_date(cls, date):
+		return Week(date.datetime)
 
 	@property
-	def first_day(self):
-		week_str = '{}-{}-1'.format(self._year, self._number)
-		monday = datetime.strptime(week_str, '%G-%V-%u')
+	def monday(self):
+		weekday = self._a_datetime.weekday()
+		monday = self._a_datetime - timedelta(days=weekday)
 		return Date(monday)
 	
 	@property
 	def year(self):
-		return self._year
+		return self._a_datetime.year
 	
 	@property
 	def number(self):
-		return self._number
+		return self._a_datetime.isocalendar()[1]
 	
-
 	@property
-	def last_day(self):
-		sunday = self.first_day.datetime + timedelta(days=7)
+	def sunday(self):
+		weekday = self._a_datetime.weekday()
+		sunday = self._a_datetime + timedelta(days=(7-weekday))
 		return Date(sunday)
 	
 	@property
 	def prev(self):
-		return self.first_day.prev.week
+		return self.monday.prev.week
 	
 	@property
 	def next(self):
-		return self.last_day.next.week
+		return self.sunday.next.week
 	
 	def __str__(self):
-		return 'Week {}, {}'.format(self._number, self._year)
+		return 'Week {}, {}'.format(self.number, self.year)
