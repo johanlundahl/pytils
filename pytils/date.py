@@ -49,6 +49,10 @@ class Week:
 	def from_date(cls, date):
 		return Week(date.datetime)
 
+	@classmethod
+	def current(cls):
+		return Week(datetime.now())
+
 	@property
 	def year(self):
 		return self._a_datetime.year
@@ -81,6 +85,10 @@ class Month:
 	def __init__(self, a_datetime):
 		self._datetime = a_datetime
 
+	@classmethod
+	def current(cls):
+		return Month(datetime.now())
+
 	@property
 	def number(self):
 		return self._datetime.month
@@ -109,9 +117,4 @@ class Month:
 		return Date(datetime(year, month, day))
 
 	def __str__(self):
-		return ''
-
-class Year:
-
-	def prev(self):
-		pass
+		return self._datetime.strftime('%B %Y')
