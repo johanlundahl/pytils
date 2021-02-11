@@ -6,7 +6,7 @@ import calendar
 class Period(ABC):
     
     def __init__(self, dt):
-        self._datetime = dt.replace(hour=0, minute=0, second=0, microsecond=0)
+        self._datetime = datetime(dt.year, dt.month, dt.day)
 
     @classmethod
     def current(cls):
