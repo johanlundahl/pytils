@@ -12,9 +12,12 @@ def post_json(url, obj):
     return response.status_code, response.text
 
 def get_json(url):
-    headers = {'content-type': 'application/json'}
-    response = requests.get(url, headers = headers)
-    return response.status_code, response.json()
+    try:
+        headers = {'content-type': 'application/json'}
+        response = requests.get(url, headers = headers)
+        return response.status_code, response.json()
+    except json.decoder.JSONDecodeError:
+        return 400, ''
 
 def get(url):
     headers = {'content-type': 'application/json'}
