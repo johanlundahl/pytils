@@ -1,4 +1,4 @@
-![Code quality](https://github.com/johanlundahl/pytils/workflows/code-quality/badge.svg)
+[![Code quality](https://github.com/johanlundahl/pytils/actions/workflows/code-quality.yml/badge.svg)](https://github.com/johanlundahl/pytils/actions/workflows/code-quality.yml)
 ![Tests](https://github.com/johanlundahl/pytils/workflows/Python-package/badge.svg)
 
 # pytils
