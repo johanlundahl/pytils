@@ -1,2 +1,2 @@
 test:
-	python3 -m unittest tests/*_test.py
+	python3 -m pytest tests/*_test.py

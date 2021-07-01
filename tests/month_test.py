@@ -23,16 +23,16 @@ class MonthTest(unittest.TestCase):
         month = Month(datetime(year=2021, month=3, day=15))
         first_date, last_date = month.range()
         self.assertTrue(isinstance(first_date, Date))
-        self.assertEqual(first_date.datetime.day, 1)
+        self.assertEqual(first_date._datetime.day, 1)
 
     def test_last_date(self):
         march = Month(datetime(year=2021, month=3, day=15))
         first_date, last_date = march.range()
         self.assertTrue(isinstance(last_date, Date))
-        self.assertEqual(last_date.datetime.day, 31)
+        self.assertEqual(last_date._datetime.day, 31)
         february = Month(datetime(year=2021, month=2, day=15))
         first_date, last_date = february.range()
-        self.assertEqual(last_date.datetime.day, 28)
+        self.assertEqual(last_date._datetime.day, 28)
         
 
 if __name__ == '__main__':
