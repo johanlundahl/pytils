@@ -6,22 +6,25 @@ import re
 from flask import request
 from functools import wraps
 
+
 def post_json(url, obj):
     headers = {'content-type': 'application/json'}
-    response = requests.post(url, data = obj, headers = headers)
+    response = requests.post(url, data=obj, headers=headers)
     return response.status_code, response.text
+
 
 def get_json(url):
     try:
         headers = {'content-type': 'application/json'}
-        response = requests.get(url, headers = headers)
+        response = requests.get(url, headers=headers)
         return response.status_code, response.json()
     except json.decoder.JSONDecodeError:
         return 400, ''
 
+
 def get(url):
     headers = {'content-type': 'application/json'}
-    response = requests.get(url, headers = headers)
+    response = requests.get(url, headers=headers)
     return response.status_code, response.text
 
 
@@ -29,16 +32,22 @@ def validate_querystrings(method='GET', parameters=[]):
     def wrap(f):
         @wraps(f)
         def wrapped_f(*args, **kwargs):
-            for querystring in request.args:
-                querystring, operator = Filter.split_name_operator(querystring)
-                if querystring not in parameters:
-                    return 'The requested argument {} is not supported.'.format(querystring), 400
+            for qs in request.args:
+                qs, operator = Filter.split_name_operator(qs)
+                if qs not in parameters:
+                    return f'Requested argument {qs} is not supported.', 400
             return f(*args, **kwargs)
         return wrapped_f
     return wrap
 
 
-operators = { 'lt':(operator.lt, '<'), 'le':(operator.le, '<='), 'eq':(operator.eq, '=='), 'ne':(operator.ne, '!='), 'ge':(operator.ge, '>='), 'gt':(operator.gt, '>') }
+operators = {'lt': (operator.lt, '<'),
+             'le': (operator.le, '<='),
+             'eq': (operator.eq, '=='),
+             'ne': (operator.ne, '!='),
+             'ge': (operator.ge, '>='),
+             'gt': (operator.gt, '>')}
+
 
 class Filter:
     def __init__(self, name, operator='eq', value=None):
@@ -48,7 +57,7 @@ class Filter:
 
     @classmethod
     def from_querystring(cls, str, ignore_type=False):
-        match = re.compile("(.+)\[(.+)\]=(.+)").match(str)
+        match = re.compile(r"(.+)\[(.+)\]=(.+)").match(str)
         if match:
             name, operator, value = match.groups()
             return Filter(name, operator, cls.value_parse(value, ignore_type))
@@ -66,7 +75,7 @@ class Filter:
 
     @classmethod
     def split_name_operator(cls, full_name):
-        match = re.compile("(.+)\[(.+)\]").match(full_name)
+        match = re.compile(r"(.+)\[(.+)\]").match(full_name)
         if match:
             name, operator = match.groups()
             return name, operator
@@ -81,11 +90,14 @@ class Filter:
         return lambda x: self.operator(x.__dict__[self.name], self.value)
 
     def to_json(self):
-        result = {'field': self.name, 'op': self.operator_str, 'value': self.value}
+        result = {'field': self.name,
+                  'op': self.operator_str,
+                  'value': self.value}
         return result
 
     def __str__(self):
-        return 'Filter(name={}, operator={}, value={})'.format(self.name, self.operator, self.value)
+        return (f'Filter(name={self.name}, ',
+                f'operator={self.operator}, value={self.value})')
 
     def __repr__(self):
         return str(self)
@@ -96,7 +108,7 @@ class Filter:
             return str
         date = cls.parse_datetime(str)
         if not ignore_type and date is not None:
-            return date 
+            return date
         else:
             return json.loads(str)
 
@@ -106,9 +118,10 @@ class Filter:
         for format in formats:
             try:
                 return datetime.strptime(str, format)
-            except:
+            except ValueError:
                 continue
         return None
+
 
 class Navigation:
 

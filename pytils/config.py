@@ -13,7 +13,7 @@ def has_main():
     try:
         get_main_name()
         return True
-    except:
+    except KeyError:
         return False
 
 

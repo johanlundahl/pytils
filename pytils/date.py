@@ -4,7 +4,7 @@ import calendar
 
 
 class Period(ABC):
-    
+
     def __init__(self, dt=datetime.now()):
         self._datetime = datetime(dt.year, dt.month, dt.day)
 
@@ -46,13 +46,13 @@ class Period(ABC):
     @abstractmethod
     def range(self):
         pass
-        
+
     def __str__(self):
         return self._datetime.strftime(self.date_pattern)
 
 
 class Date(Period):
-    
+
     _date_pattern = '%Y-%m-%d'
 
     @property
@@ -62,17 +62,20 @@ class Date(Period):
     @property
     def number(self):
         return self._datetime.day
-        
+
     def prev(self):
         yesterday = self._datetime - timedelta(days=1)
         return Date(yesterday)
-    
+
     def next(self):
         tomorrow = self._datetime + timedelta(days=1)
         return Date(tomorrow)
-    
+
     def range(self):
-        end = self._datetime.replace(hour=23, minute=59, second=59, microsecond=999)
+        end = self._datetime.replace(hour=23,
+                                     minute=59,
+                                     second=59,
+                                     microsecond=999)
         return (self._datetime, end)
 
     def __sub__(self, obj):
@@ -96,15 +99,15 @@ class Week(Period):
         monday = self._datetime - timedelta(days=weekday)
         sunday = self._datetime + timedelta(days=(7-weekday))
         return (Date(monday), Date(sunday))
-        
+
     def prev(self):
         monday, sunday = self.range()
         return Week.of(monday.prev())
-    
+
     def next(self):
         monday, sunday = self.range()
         return Week.of(sunday.next())
-    
+
 
 class Month(Period):
 
@@ -115,30 +118,31 @@ class Month(Period):
     @property
     def number(self):
         return self._datetime.month
-        
+
     @property
     def days(self):
         year = self._datetime.year
         month = self._datetime.month
-        return calendar.monthrange(year, month)[1]  
+        return calendar.monthrange(year, month)[1]
 
     def prev(self):
         first, last = self.range()
         return Month.of(first.prev())
-    
+
     def next(self):
         first, last = self.range()
         return Month.of(last.next())
-        
+
     def range(self):
         year = self._datetime.year
         month = self._datetime.month
-        last_day = calendar.monthrange(year, month)[1]        
-        return (Date(datetime(year, month, 1)), Date(datetime(year, month, last_day)))
+        last_day = calendar.monthrange(year, month)[1]
+        return (Date(datetime(year, month, 1)),
+                Date(datetime(year, month, last_day)))
 
 
 class Year(Period):
-    
+
     @property
     def date_pattern(self):
         return '%Y'
@@ -146,7 +150,7 @@ class Year(Period):
     @property
     def number(self):
         return self._datetime.year
-    
+
     def prev(self):
         first, last = self.range()
         return Year.of(first.prev())
@@ -154,8 +158,7 @@ class Year(Period):
     def next(self):
         first, last = self.range()
         return Year.of(last.next())
-        
+
     def range(self):
         year = self._datetime.year
         return (Date(datetime(year, 1, 1)), Date(datetime(year, 12, 31)))
-
