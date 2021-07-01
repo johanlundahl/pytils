@@ -1,3 +1,5 @@
+![Build Status](https://github.com/johanlundahl/pytils/workflows/Python-package/badge.svg)
+
 # pytils
 
 A python package with various utility modules.

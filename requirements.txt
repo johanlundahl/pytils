@@ -1,4 +1,6 @@
 argparse
-win32file
 python-box
 pyyaml
+requests
+flask
+

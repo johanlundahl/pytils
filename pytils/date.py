@@ -5,16 +5,21 @@ import calendar
 
 class Period(ABC):
     
-    def __init__(self, dt):
+    def __init__(self, dt=datetime.now()):
         self._datetime = datetime(dt.year, dt.month, dt.day)
 
     @classmethod
-    def current(cls):
+    def now(cls):
         return cls(datetime.now())
 
     @classmethod
-    def create(cls, date):
-        return cls(date._datetime)
+    def parse(cls, date_str):
+        date = datetime.strptime(date_str, cls._date_pattern)
+        return cls(date)
+
+    @classmethod
+    def of(cls, period):
+        return cls(period._datetime)
 
     @property
     @abstractmethod
@@ -22,8 +27,12 @@ class Period(ABC):
         pass
 
     @property
-    @abstractmethod
     def name(self):
+        return str(self)
+
+    @property
+    @abstractmethod
+    def number(self):
         pass
 
     @abstractmethod
@@ -46,22 +55,13 @@ class Date(Period):
     
     _date_pattern = '%Y-%m-%d'
 
-    @classmethod
-    def parse(cls, date_str):
-        date = datetime.strptime(date_str, cls._date_pattern)
-        return Date(date)
-
     @property
     def date_pattern(self):
         return Date._date_pattern
 
     @property
-    def name(self):
-        return str(self)
-    
-    @property
-    def datetime(self):
-        return self._datetime
+    def number(self):
+        return self._datetime.day
         
     def prev(self):
         yesterday = self._datetime - timedelta(days=1)
@@ -70,19 +70,15 @@ class Date(Period):
     def next(self):
         tomorrow = self._datetime + timedelta(days=1)
         return Date(tomorrow)
-
-    def week(self):
-        return Week(self._datetime)
-    
-    def month(self):
-        return Month(self._datetime)
-
-    def year(self):
-        return Year(self._datetime)
     
     def range(self):
         end = self._datetime.replace(hour=23, minute=59, second=59, microsecond=999)
         return (self._datetime, end)
+
+    def __sub__(self, obj):
+        if isinstance(obj, int):
+            new_date = self._datetime - timedelta(days=obj)
+            return Date(new_date)
 
 
 class Week(Period):
@@ -91,14 +87,6 @@ class Week(Period):
     def date_pattern(self):
         return '%V %Y'
 
-    @property    
-    def name(self):
-        return 'Week {}, {}'.format(self.number, self.year)
-
-    @property
-    def year(self):
-        return self._datetime.year
-    
     @property
     def number(self):
         return self._datetime.isocalendar()[1]
@@ -111,11 +99,11 @@ class Week(Period):
         
     def prev(self):
         monday, sunday = self.range()
-        return Week.create(monday.prev())
+        return Week.of(monday.prev())
     
     def next(self):
         monday, sunday = self.range()
-        return Week.create(sunday.next())
+        return Week.of(sunday.next())
     
 
 class Month(Period):
@@ -123,10 +111,6 @@ class Month(Period):
     @property
     def date_pattern(self):
         return '%B %Y'
-
-    @property
-    def name(self):
-        return str(self)
 
     @property
     def number(self):
@@ -140,11 +124,11 @@ class Month(Period):
 
     def prev(self):
         first, last = self.range()
-        return Month.create(first.prev())
+        return Month.of(first.prev())
     
     def next(self):
         first, last = self.range()
-        return Month.create(last.next())
+        return Month.of(last.next())
         
     def range(self):
         year = self._datetime.year
@@ -159,17 +143,17 @@ class Year(Period):
     def date_pattern(self):
         return '%Y'
 
-    @property    
-    def name(self):
-        return str(self)
+    @property
+    def number(self):
+        return self._datetime.year
     
     def prev(self):
         first, last = self.range()
-        return Year.create(first.prev())
+        return Year.of(first.prev())
 
     def next(self):
         first, last = self.range()
-        return Year.create(last.next())
+        return Year.of(last.next())
         
     def range(self):
         year = self._datetime.year
