@@ -28,6 +28,12 @@ class Checker:
                 return rule.result(obj) if callable(rule.result) else rule.result
         return None
     
+    def transform(self, obj):
+        for rule in self._rules:
+            if rule.func(obj):
+                return rule.result(obj)
+
+
 class Rule:
     def __init__(self, func, result):
         self._func = func

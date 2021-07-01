@@ -1,7 +1,9 @@
 import unittest
 from pytils.validator import Checker
 
-class Search(unittest.TestCase):
+
+class ValidatorTest(unittest.TestCase):
+
     def setUp(self):
         pass
     
@@ -38,10 +40,25 @@ class Search(unittest.TestCase):
         
         self.assertEqual(age.evaluate(-1), 'Must be positive int')
         self.assertEqual(age.evaluate(1), None)
+
+    def test_evaluate_to_transform(self):
+        age = Checker().all()
+        age.add_rule(lambda i: i >= 0, 'Must be positive int')
+        age.add_rule(lambda i: i < 130, 'No one is that old')
         
-        
+        self.assertEqual(age.evaluate(-1), 'Must be positive int')
+        self.assertEqual(age.evaluate(1), None)
+
+    def test_transform(self):
+        prefix = Checker().any()
+        prefix.add_rule(lambda x: x >= 1000, lambda x: x // 1000)
+
+        self.assertTrue(prefix.validate(2000))
+        self.assertEqual(prefix.transform(2000), 2)
+
     def tearDown(self):
         pass
     
+
 if __name__ == '__main__':
     unittest.main()
