@@ -33,6 +33,14 @@ class ValidatorTest(unittest.TestCase):
         self.assertFalse(rules.any().validate('...'))
         self.assertTrue(rules.any().validate('1'))
 
+    def test_validate_any_without_rules(self):
+        rules = Checker().any()
+        self.assertFalse(rules.validate(100))
+
+    def test_validate_all_without_rules(self):
+        rules = Checker().all()
+        self.assertTrue(rules.validate(100))
+
     def test_evaluate_to_message(self):
         age = Checker().all()
         age.add_rule(lambda i: i >= 0, 'Must be positive int')

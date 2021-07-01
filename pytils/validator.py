@@ -20,7 +20,7 @@ class Checker:
     def validate(self, obj):
         try:
             return self._type(rule.func(obj) for rule in self._rules)
-        except:
+        except TypeError:
             return False
 
     def evaluate(self, obj):
