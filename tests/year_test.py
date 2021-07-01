@@ -1,6 +1,6 @@
 from datetime import datetime
 import unittest
-from pytils.date import Date, Week, Month, Year
+from pytils.date import Date, Year
 
 
 class YearTest(unittest.TestCase):
@@ -26,12 +26,12 @@ class YearTest(unittest.TestCase):
     def test_prev(self):
         year = Year(datetime(year=2021, month=3, day=15))
         self.assertTrue(isinstance(year.prev(), Year))
-        #self.assertEqual(year.prev().number, 2020)
+        # self.assertEqual(year.prev().number, 2020)
 
     def test_next(self):
         year = Year(datetime(year=2021, month=3, day=15))
         self.assertTrue(isinstance(year.next(), Year))
-        #self.assertEqual(year.next().number, 2022)
+        # self.assertEqual(year.next().number, 2022)
 
 
 if __name__ == '__main__':

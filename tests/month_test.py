@@ -1,6 +1,6 @@
 from datetime import datetime
 import unittest
-from pytils.date import Date, Week, Month
+from pytils.date import Date, Month
 
 
 class MonthTest(unittest.TestCase):
@@ -33,7 +33,7 @@ class MonthTest(unittest.TestCase):
         february = Month(datetime(year=2021, month=2, day=15))
         first_date, last_date = february.range()
         self.assertEqual(last_date._datetime.day, 28)
-        
+
 
 if __name__ == '__main__':
     unittest.main()

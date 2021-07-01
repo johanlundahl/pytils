@@ -2,6 +2,7 @@ from datetime import datetime
 import unittest
 from pytils.http import Filter
 
+
 class FilterTest(unittest.TestCase):
 
     def test_value_parse_int(self):
@@ -21,15 +22,12 @@ class FilterTest(unittest.TestCase):
         self.assertEqual(val, '2020-01-23')
 
     def test_value_parse_datetime(self):
-        #self.fail('not implemented')
         pass
 
     def test_value_parse_datetime_ignore_type(self):
-        #self.fail('not implemented')
         pass
 
     def test_parse_datetime(self):
-        #self.fail('not implemented')
         pass
 
     def test_to_json_contains_keys(self):
@@ -69,8 +67,8 @@ class FilterTest(unittest.TestCase):
     def test_split_name_with_operator(self):
         name, operator = Filter.split_name_operator('name[eq]')
         self.assertEqual('name', name)
-        self.assertEqual('eq', operator)        
+        self.assertEqual('eq', operator)
 
 
 if __name__ == '__main__':
-    unittest.main() 
+    unittest.main()

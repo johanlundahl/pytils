@@ -2,6 +2,7 @@ from datetime import datetime
 import unittest
 from pytils.date import Date, Month
 
+
 class DateTest(unittest.TestCase):
 
     def test_constructor(self):
@@ -15,16 +16,16 @@ class DateTest(unittest.TestCase):
         self.assertTrue(isinstance(date, Date))
 
     def test_date_invalid_parse(self):
-        with self.assertRaises(ValueError) as context:
-            date = Date.parse('20-11-01')
-            date = Date.parse('2020/11/01')
+        with self.assertRaises(ValueError):
+            Date.parse('20-11-01')
+            Date.parse('2020/11/01')
 
     def test_prev(self):
         date1 = Date(datetime(year=2020, month=9, day=21))
         self.assertEqual(date1.prev()._datetime.day, 20)
         date2 = Date(datetime(year=2020, month=9, day=1))
         self.assertEqual(date2.prev()._datetime.day, 31)
-        
+
     def test_next(self):
         date1 = Date(datetime(year=2020, month=9, day=21))
         self.assertEqual(date1.next()._datetime.day, 22)
@@ -41,4 +42,4 @@ class DateTest(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    unittest.main() 
+    unittest.main()

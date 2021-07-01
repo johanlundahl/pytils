@@ -27,20 +27,20 @@ class WeekTest(unittest.TestCase):
         monday, sunday = week.range()
         self.assertTrue(isinstance(monday, Date))
         self.assertTrue(monday._datetime.day, 2)
-        self.assertEqual('2020-11-02', str(monday))        
+        self.assertEqual('2020-11-02', str(monday))
 
     def test_sunday(self):
         week = Week(datetime(year=2020, month=11, day=6))
         monday, sunday = week.range()
         self.assertTrue(isinstance(sunday, Date))
         self.assertTrue(sunday.number, 8)
-        self.assertEqual(45, week.number) 
+        self.assertEqual(45, week.number)
 
     def test_last_week_of_year(self):
         week = Week(datetime(year=2020, month=12, day=30))
         monday, sunday = week.range()
         self.assertEqual('2020-12-28', str(monday))
-        self.assertEqual(53, week.number)        
+        self.assertEqual(53, week.number)
 
     def test_first_week_of_year(self):
         week = Week(datetime(year=2021, month=1, day=8))
@@ -52,5 +52,6 @@ class WeekTest(unittest.TestCase):
         week = Week(datetime(year=2021, month=3, day=18))
         self.assertEqual(week.name, '11 2021')
 
+
 if __name__ == '__main__':
-    unittest.main() 
+    unittest.main()
