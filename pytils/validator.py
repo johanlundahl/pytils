@@ -26,7 +26,10 @@ class Checker:
     def evaluate(self, obj):
         for rule in self._rules:
             if not rule.func(obj):
-                return rule.result(obj) if callable(rule.result) else rule.result
+                if callable(rule.result):
+                    return rule.result(obj)
+                else:
+                    return rule.result
         return None
 
     def transform(self, obj):
@@ -61,8 +64,10 @@ if __name__ == '__main__':
 
     nbr_plate = Checker()
     nbr_plate.add_rule(lambda r: len(r) == 6, 'Must be six tokens long')
-    nbr_plate.add_rule(lambda r: all(x.isdigit() for x in r[-3:]), 'Must end with three digits')
-    nbr_plate.add_rule(lambda r: all(x.isalpha() for x in r[:3]), 'Must start with three letters')
+    nbr_plate.add_rule(lambda r: all(x.isdigit() for x in r[-3:]),
+                       'Must end with three digits')
+    nbr_plate.add_rule(lambda r: all(x.isalpha() for x in r[:3]),
+                       'Must start with three letters')
 
     if not nbr_plate.validate('ABC 123'):
         print(nbr_plate.evaluate('ABC 123'))
