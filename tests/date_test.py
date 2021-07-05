@@ -40,6 +40,12 @@ class DateTest(unittest.TestCase):
         week = Date.parse('2021-03-17')
         self.assertTrue(isinstance(week, Date))
 
+    def test_range(self):
+        date = Date(datetime(year=2021, month=7, day=5))
+        start, end = date.range()
+        self.assertEqual(start.day, 5)
+        self.assertEqual(end.day, 5)
+
 
 if __name__ == '__main__':
     unittest.main()

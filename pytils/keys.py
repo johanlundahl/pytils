@@ -16,7 +16,7 @@ def alfanumeric(length, case=Case.BOTH):
 
 
 def hexadecimal(length):
-    return secrets.token_hex(length//2)
+    return secrets.token_hex(length//2).upper()
 
 
 if __name__ == '__main__':
