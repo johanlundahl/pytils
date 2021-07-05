@@ -4,7 +4,7 @@ test:
 
 cov:
 	coverage report
-        coverage html
+	coverage html
 
 lint:
 	flake8 --statistics --count
