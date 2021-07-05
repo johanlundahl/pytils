@@ -5,14 +5,14 @@
 
 A python package with various utility modules such as
 * config
-* date
-* http
-* key_generator?
+* date - objects representing periods (day, week, month, year) with handy next and prev methods. 
+* http - parsing and querystring filters and some methods for get and post.
+* keys - generates alfanumeric or hexadecimal keys.
 * log
 * logging
 * method_chaining
 * slack
-* validator
+* validator - validation manager that validates objects based on custom defined rules.
 
 ## Installation
 
@@ -25,7 +25,6 @@ $ git clone https://github.com/johanlundahl/pytils
 Run the test of the module
 ```
 $ make test
-
 ```
 
 ## Use in other projects
