@@ -1,5 +1,7 @@
 from datetime import datetime
+import __main__
 import logging
+import os
 
 
 def init(log_name='application'):
@@ -11,22 +13,6 @@ def init(log_name='application'):
                         format=msg_format,
                         datefmt=date_format,
                         level=logging.INFO)
-
-
-def info(msg):
-    logging.info(msg)
-
-
-def warning(msg):
-    logging.warning(msg)
-
-
-def error(msg):
-    logging.error(msg)
-
-
-def exception(msg):
-    logging.exception(msg)
 
 
 def elapsed_time(func):
@@ -45,3 +31,8 @@ def called_at(func):
         print('{} {}{}'.format(start, func.__name__, args))
         return func(*args, **kwargs)
     return wrapper
+
+
+def auto_name_log():
+    main_module = os.path.splitext(os.path.basename(__main__.__file__))[0]
+    init(main_module)

@@ -8,8 +8,7 @@ A python package with various utility modules such as
 * date - objects representing periods (day, week, month, year) with handy next and prev methods. 
 * http - parsing and querystring filters and some methods for get and post.
 * keys - generates alfanumeric or hexadecimal keys.
-* log
-* logging
+* log - setting up log files and decorators for easier logging.
 * method_chaining
 * slack
 * validator - validation manager that validates objects based on custom defined rules.
