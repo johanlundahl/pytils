@@ -86,9 +86,9 @@ class FilterTest(unittest.TestCase):
         self.assertEqual(operator.gt, pair.operator)
 
     def test_filter_evaluate(self):
-        # f = Filter('age', 'lt', 65)
-        # self.assertTrue(f.evaluate(64))
-        pass
+        f = Filter('age', 'lt', 65)
+        self.assertTrue(f.evaluate(64))
+        self.assertFalse(f.evaluate(65))
 
     def test_filter_ags_matching(self):
         params = {'name': 12, 'age': 12,

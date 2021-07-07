@@ -56,17 +56,6 @@ class Filter:
         self.value = value
 
     @classmethod
-    def from_querystring(cls, str, ignore_type=False):  # Where is it used?
-        match = re.compile(r"(.+)\[(.+)\]=(.+)").match(str)
-        if match:
-            name, operator, value = match.groups()
-            return Filter(name, operator, cls.value_parse(value, ignore_type))
-        match = re.compile('(.+)=(.+)').match(str)
-        if match:
-            name, value = match.groups()
-            return Filter(name, value=cls.value_parse(value, ignore_type))
-
-    @classmethod
     def from_arg(cls, name, value, ignore_type=False):
         name, operator = Filter.split_name_operator(name)
         if operator is not None:
@@ -86,8 +75,8 @@ class Filter:
         return [a for a in args if Filter.split_name_operator(a)[0] == name]
 
     @property
-    def evaluate(self):  # Where is it used?
-        return lambda x: self.operator(x.__dict__[self.name], self.value)
+    def evaluate(self):
+        return lambda x: self.operator(x, self.value)
 
     def to_json(self):
         result = {'field': self.name,
