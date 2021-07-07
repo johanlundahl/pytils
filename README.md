@@ -4,7 +4,7 @@
 # pytils
 
 A python package with various utility modules such as
-* config
+* config - loading of yaml config files.
 * date - objects representing periods (day, week, month, year) with handy next and prev methods. 
 * http - parsing and querystring filters and some methods for get and post.
 * keys - generates alfanumeric or hexadecimal keys.
