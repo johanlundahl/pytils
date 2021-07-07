@@ -56,7 +56,7 @@ class Filter:
         self.value = value
 
     @classmethod
-    def from_querystring(cls, str, ignore_type=False):
+    def from_querystring(cls, str, ignore_type=False):  # Where is it used?
         match = re.compile(r"(.+)\[(.+)\]=(.+)").match(str)
         if match:
             name, operator, value = match.groups()
@@ -83,10 +83,10 @@ class Filter:
 
     @classmethod
     def args_matching(cls, args, name):
-        return [a for a in args if a[:len(name)] == name]
+        return [a for a in args if Filter.split_name_operator(a)[0] == name]
 
     @property
-    def evaluate(self):
+    def evaluate(self):  # Where is it used?
         return lambda x: self.operator(x.__dict__[self.name], self.value)
 
     def to_json(self):

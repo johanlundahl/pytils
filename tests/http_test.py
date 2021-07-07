@@ -1,5 +1,6 @@
 from datetime import datetime
 import unittest
+import operator
 from pytils.http import Filter
 
 
@@ -68,6 +69,32 @@ class FilterTest(unittest.TestCase):
         name, operator = Filter.split_name_operator('name[eq]')
         self.assertEqual('name', name)
         self.assertEqual('eq', operator)
+
+    def test_filter_from_querystring(self):
+        pass
+
+    def test_filter_from_non_operator_arg(self):
+        pair = Filter.from_arg('name', '12')
+        self.assertEqual('name', pair.name)
+        self.assertEqual(12, pair.value)
+        self.assertEqual(operator.eq, pair.operator)
+
+    def test_filter_from_gt_operator_arg(self):
+        pair = Filter.from_arg('age[gt]', '18')
+        self.assertEqual('age', pair.name)
+        self.assertEqual(18, pair.value)
+        self.assertEqual(operator.gt, pair.operator)
+
+    def test_filter_evaluate(self):
+        # f = Filter('age', 'lt', 65)
+        # self.assertTrue(f.evaluate(64))
+        pass
+
+    def test_filter_ags_matching(self):
+        params = {'name': 12, 'age': 12,
+                  'address': 'street', 'ages': 20, 'age[lt]': 65}
+        args = Filter.args_matching(params, 'age')
+        self.assertEqual(len(args), 2)
 
 
 if __name__ == '__main__':
