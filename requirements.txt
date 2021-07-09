@@ -1,8 +1,3 @@
-argparse
-python-box
-pyyaml
-requests
-flask
 pytest
 coverage
 flake8
