@@ -1,4 +1,4 @@
-from abc import ABC, abstractmethod
+from abc import ABC, abstractmethod, abstractproperty
 from datetime import datetime, timedelta
 import calendar
 
@@ -14,7 +14,7 @@ class Period(ABC):
 
     @classmethod
     def parse(cls, date_str):
-        date = datetime.strptime(date_str, cls.date_pattern)
+        date = datetime.strptime(date_str, cls._date_pattern)
         return cls(date)
 
     @classmethod
@@ -22,8 +22,8 @@ class Period(ABC):
         return cls(period._datetime)
 
     @property
-    @abstractmethod
-    def date_pattern(self):
+    @abstractproperty
+    def date_pattern(cls):
         pass
 
     @property
@@ -56,7 +56,7 @@ class Date(Period):
     _date_pattern = '%Y-%m-%d'
 
     @property
-    def date_pattern(self):
+    def date_pattern(cls):
         return Date._date_pattern
 
     @property
@@ -85,6 +85,7 @@ class Date(Period):
 
 
 class Week(Period):
+    _date_pattern = '%V %Y'
 
     @property
     def date_pattern(self):
@@ -110,6 +111,7 @@ class Week(Period):
 
 
 class Month(Period):
+    _date_pattern = '%B %Y'
 
     @property
     def date_pattern(self):
