@@ -14,7 +14,7 @@ class Period(ABC):
 
     @classmethod
     def parse(cls, date_str):
-        date = datetime.strptime(date_str, cls._date_pattern)
+        date = datetime.strptime(date_str, cls.date_pattern)
         return cls(date)
 
     @classmethod
