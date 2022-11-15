@@ -14,14 +14,14 @@ class Period(ABC):
 
     @classmethod
     def parse(cls, date_str):
-        date = datetime.strptime(date_str, cls._date_pattern)
+        date = datetime.strptime(date_str, cls().date_pattern)
         return cls(date)
 
     @classmethod
     def of(cls, period):
         return cls(period._datetime)
 
-    @property
+    @staticmethod
     @abstractproperty
     def date_pattern(cls):
         pass
@@ -53,11 +53,9 @@ class Period(ABC):
 
 class Date(Period):
 
-    _date_pattern = '%Y-%m-%d'
-
     @property
     def date_pattern(cls):
-        return Date._date_pattern
+        return '%Y-%m-%d'
 
     @property
     def number(self):
@@ -85,7 +83,6 @@ class Date(Period):
 
 
 class Week(Period):
-    _date_pattern = '%V %Y'
 
     @property
     def date_pattern(self):
@@ -111,7 +108,6 @@ class Week(Period):
 
 
 class Month(Period):
-    _date_pattern = '%B %Y'
 
     @property
     def date_pattern(self):
