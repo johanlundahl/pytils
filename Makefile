@@ -1,6 +1,8 @@
 test:
-	#python3 -m pytest tests/*_test.py
-	coverage run -m pytest tests/*_test.py
+	coverage run --source=. -m pytest tests/*_test.py
+	coverage report
+	coverage html
+	coveralls
 
 cov:
 	coverage report
