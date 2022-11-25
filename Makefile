@@ -8,3 +8,7 @@ cov:
 
 lint:
 	flake8 --statistics --count
+
+update:
+	git pull
+	pip3 install -r requirements.txt	
