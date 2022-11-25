@@ -9,6 +9,7 @@ A python package with various utility modules such as
 * http - parsing and querystring filters and some methods for get and post.
 * keys - generates alfanumeric or hexadecimal keys.
 * log - setting up log files and decorators for easier logging.
+* log - setting up handlers and formatters for standard logging.
 * method_chaining
 * slack
 * validator - validation manager that validates objects based on custom defined rules.
