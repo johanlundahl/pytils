@@ -1,6 +1,5 @@
 import unittest
 from unittest.mock import patch, mock_open
-from dataclasses import dataclass
 from io import StringIO
 from pytils.config import Configuration
 
@@ -14,13 +13,12 @@ class ConfigurationTest(unittest.TestCase):
         config = Config.init()
         self.assertEqual(config.name, 'Nobody')
 
-
     @patch('pytils.config.path.exists')
     @patch('builtins.open', new_callable=StringIO)
     @unittest.skip("reason for skipping")
     def test_init_file_dont_exists(self, mock_open, mock_exists):
         mock_exists.return_value = False
-        #mock_open.return_value.__enter__ = StringIO('')
+        # mock_open.return_value.__enter__ = StringIO('')
         config = Config.init()
         self.assertEqual(config.name, 'Nobody')
 
