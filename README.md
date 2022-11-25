@@ -1,5 +1,6 @@
 [![Lint](https://github.com/johanlundahl/pytils/actions/workflows/code-quality.yml/badge.svg)](https://github.com/johanlundahl/pytils/actions/workflows/code-quality.yml)
 [![Tests](https://github.com/johanlundahl/pytils/actions/workflows/python-package.yml/badge.svg)](https://github.com/johanlundahl/pytils/actions/workflows/python-package.yml)
+[![Coverage](https://coveralls.io/repos/github/johanlundahl/pytils/badge.svg?branch=master)](https://coveralls.io/github/johanlundahl/pytils?branch=master)
 
 # pytils
 
