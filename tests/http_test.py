@@ -3,8 +3,7 @@ import unittest
 import operator
 from pytils.http import Filter
 from pytils import http
-from unittest.mock import patch, mock_open
-from flask import request
+from unittest.mock import patch
 
 
 class FilterTest(unittest.TestCase):
@@ -106,11 +105,11 @@ class FilterTest(unittest.TestCase):
         @http.validate_querystrings(method='GET', parameters=['name', 'age'])
         def decorated():
             return 'fine', 200
-        with app.test_request_context():
-            mock_args.return_value = {'name': 'john', 'age': 22}
-            answer, status = decorated()
-            self.assertEqual(answer, 'fine')
-            self.assertEqual(status, 200)
+        # with app.test_request_context():
+        mock_args.return_value = {'name': 'john', 'age': 22}
+        answer, status = decorated()
+        self.assertEqual(answer, 'fine')
+        self.assertEqual(status, 200)
 
 
 if __name__ == '__main__':
