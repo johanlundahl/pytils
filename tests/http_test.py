@@ -2,6 +2,9 @@ from datetime import datetime
 import unittest
 import operator
 from pytils.http import Filter
+from pytils import http
+from unittest.mock import patch, mock_open
+from flask import request
 
 
 class FilterTest(unittest.TestCase):
@@ -95,6 +98,19 @@ class FilterTest(unittest.TestCase):
                   'address': 'street', 'ages': 20, 'age[lt]': 65}
         args = Filter.args_matching(params, 'age')
         self.assertEqual(len(args), 2)
+
+    @patch('flask.request.args')
+    @unittest.skip
+    def test_validate_querystring_positive(self, mock_args):
+
+        @http.validate_querystrings(method='GET', parameters=['name', 'age'])
+        def decorated():
+            return 'fine', 200
+        with app.test_request_context():
+            mock_args.return_value = {'name': 'john', 'age': 22}
+            answer, status = decorated()
+            self.assertEqual(answer, 'fine')
+            self.assertEqual(status, 200)
 
 
 if __name__ == '__main__':
