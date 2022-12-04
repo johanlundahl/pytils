@@ -129,8 +129,8 @@ class FilterTest(unittest.TestCase):
         args = Filter.args_matching(params, 'age')
         self.assertEqual(len(args), 2)
 
-    @patch('flask.request.args')
     @unittest.skip
+    @patch('flask.request.args')
     def test_validate_querystring_positive(self, mock_args):
 
         @http.validate_querystrings(method='GET', parameters=['name', 'age'])
