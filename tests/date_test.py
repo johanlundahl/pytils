@@ -46,6 +46,11 @@ class DateTest(unittest.TestCase):
         self.assertEqual(start.day, 5)
         self.assertEqual(end.day, 5)
 
+    def test_date_sub(self):
+        date = Date(datetime(year=2022, month=12, day=5))
+        another_date = date - 2
+        self.assertEqual(another_date.number, 3)
+
 
 if __name__ == '__main__':
     unittest.main()

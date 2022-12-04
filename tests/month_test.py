@@ -34,6 +34,10 @@ class MonthTest(unittest.TestCase):
         first_date, last_date = february.range()
         self.assertEqual(last_date._datetime.day, 28)
 
+    def test_month_parse(self):
+        month = Month.parse('December 2022')
+        self.assertTrue(isinstance(month, Month))
+
 
 if __name__ == '__main__':
     unittest.main()

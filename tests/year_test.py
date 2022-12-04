@@ -33,6 +33,14 @@ class YearTest(unittest.TestCase):
         self.assertTrue(isinstance(year.next(), Year))
         # self.assertEqual(year.next().number, 2022)
 
+    def test_year_number(self):
+        year = Year(datetime(year=2022, month=12, day=4))
+        self.assertEqual(year.number, 2022)
+
+    def test_year_parse(self):
+        date = Year.parse('2022')
+        self.assertTrue(isinstance(date, Year))
+
 
 if __name__ == '__main__':
     unittest.main()
