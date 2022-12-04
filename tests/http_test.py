@@ -3,7 +3,7 @@ import unittest
 import operator
 from pytils.http import Filter
 from pytils import http
-from unittest.mock import patch
+from unittest.mock import patch, Mock
 
 
 class FilterTest(unittest.TestCase):
@@ -24,8 +24,39 @@ class FilterTest(unittest.TestCase):
         val = Filter.value_parse('2020-01-23', ignore_type=True)
         self.assertEqual(val, '2020-01-23')
 
-    def test_value_parse_datetime(self):
-        pass
+    @patch('requests.get')
+    def test_get(self, mock_get):
+        mock_response = Mock()
+        mock_response.status_code = 200
+        mock_response.text = 'Some response'
+        mock_get.return_value = mock_response
+
+        status_code, content = http.get('http://yadayada.blah')
+        self.assertEqual(status_code, 200)
+        self.assertTrue(isinstance(content, str))
+
+    @patch('requests.get')
+    def test_get_json(self, mock_get):
+        mock_response = Mock()
+        mock_response.status_code = 200
+        mock_response.json = Mock(return_value={'name': 'John', 'age': 42})
+        mock_get.return_value = mock_response
+
+        status_code, content = http.get_json('http://yadayada.blah')
+        self.assertEqual(dict, type(content))
+        self.assertEqual(status_code, 200)
+
+    @patch('requests.post')
+    def test_post_json(self, mock_post):
+        mock_response = Mock()
+        mock_response.status_code = 200
+        mock_response.text = 'A responding text'
+        mock_post.return_value = mock_response
+
+        status_code, content = http.post_json('http://yadayada.blah',
+                                              {'fake': 'value'})
+        self.assertEqual(str, type(content))
+        self.assertEqual(status_code, 200)
 
     def test_value_parse_datetime_ignore_type(self):
         pass
@@ -105,6 +136,7 @@ class FilterTest(unittest.TestCase):
         @http.validate_querystrings(method='GET', parameters=['name', 'age'])
         def decorated():
             return 'fine', 200
+
         # with app.test_request_context():
         mock_args.return_value = {'name': 'john', 'age': 22}
         answer, status = decorated()
