@@ -64,6 +64,18 @@ class ValidatorTest(unittest.TestCase):
         self.assertTrue(prefix.validate(2000))
         self.assertEqual(prefix.transform(2000), 2)
 
+    def test_evaluate_with_callable(self):
+        even_odd = Checker().any()
+        even_odd.add_rule(lambda i: i % 2 > 0, lambda x: x/2)
+        even_odd.add_rule(lambda i: i % 2 == 0, lambda x: x+1)
+        self.assertEqual(even_odd.evaluate(10), 5)
+        self.assertEqual(even_odd.evaluate(11), 12)
+
+    def test_validate_with_wrong_type(self):
+        math = Checker().any()
+        math.add_rule(lambda x: x/2)
+        self.assertFalse(math.validate('abc'))
+
     def tearDown(self):
         pass
 
