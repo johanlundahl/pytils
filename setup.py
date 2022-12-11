@@ -3,7 +3,7 @@ from setuptools import setup
 
 setup(
     name='pytils',
-    version='1.0.5',
+    version='1.0.6',
     packages=['pytils'],
     include_package_data=True,
     license='Creative Commons Attribution-Noncommercial-Share Alike license',
