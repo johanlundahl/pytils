@@ -85,7 +85,7 @@ class Filter:
         return result
 
     def __str__(self):
-        return (f'Filter(name={self.name}, ',
+        return (f'Filter(name={self.name}, '
                 f'operator={self.operator}, value={self.value})')
 
     def __repr__(self):

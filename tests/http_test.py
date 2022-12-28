@@ -24,6 +24,10 @@ class FilterTest(unittest.TestCase):
         val = Filter.value_parse('2020-01-23', ignore_type=True)
         self.assertEqual(val, '2020-01-23')
 
+    def test_to_string(self):
+        a_filter = Filter('a_name', 'eq', 'a_value')
+        self.assertEqual(type(str(a_filter)), str)
+
     @patch('requests.get')
     def test_get(self, mock_get):
         mock_response = Mock()
@@ -44,6 +48,17 @@ class FilterTest(unittest.TestCase):
 
         status_code, content = http.get_json('http://yadayada.blah')
         self.assertEqual(dict, type(content))
+        self.assertEqual(status_code, 200)
+
+    @patch('requests.get')
+    def test_get_json_invalid_response(self, mock_get):
+        mock_response = Mock()
+        mock_response.status_code = 200
+        mock_response.json = Mock(return_value="{'error': 'a message'}")
+        mock_get.return_value = mock_response
+
+        status_code, content = http.get_json('http://yadayada.blah')
+        self.assertEqual(content, "{'error': 'a message'}")
         self.assertEqual(status_code, 200)
 
     @patch('requests.post')
@@ -130,7 +145,7 @@ class FilterTest(unittest.TestCase):
         self.assertEqual(len(args), 2)
 
     @unittest.skip
-    @patch('flask.request.args')
+    @patch('flask.request')
     def test_validate_querystring_positive(self, mock_args):
 
         @http.validate_querystrings(method='GET', parameters=['name', 'age'])
@@ -138,10 +153,10 @@ class FilterTest(unittest.TestCase):
             return 'fine', 200
 
         # with app.test_request_context():
-        mock_args.return_value = {'name': 'john', 'age': 22}
-        answer, status = decorated()
-        self.assertEqual(answer, 'fine')
-        self.assertEqual(status, 200)
+        # mock_args.args.return_value = {'name': 'john', 'age': 22}
+        # answer, status = decorated()
+        # self.assertEqual(answer, 'fine')
+        # self.assertEqual(status, 200)
 
 
 if __name__ == '__main__':
